@@ -27,7 +27,6 @@ public class QuizServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int CaptainAmerica_score = 5;
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -37,7 +36,7 @@ public class QuizServlet extends HttpServlet {
             out.println("<title>Servlet QuizServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Captain America's Score is: " + CaptainAmerica_score + "</h1>");
+            out.println("<h1>Captain America's Score is:</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -55,7 +54,43 @@ public class QuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response); 
+        response.setContentType("text/html");
+        PrintWriter out=response.getWriter();
+        
+        int cap_am = 0;
+        int iro_ma = 0;
+        int tho    = 0;
+        
+        for(int i = 1; i <= 4; i++){
+            String num = "ans"+Integer.toString(i);
+            String ca = "ca"+Integer.toString(i);
+            String im = "im"+Integer.toString(i);
+            String th = "th"+Integer.toString(i);
+            if(request.getParameter(num).equals(ca)){
+                cap_am++;
+            }
+            else if(request.getParameter(num).equals(im)){
+                iro_ma++;
+            }
+            else if(request.getParameter(num).equals(th)){
+                tho++;
+            }
+        }
+        /*String ans = request.getParameter("ans1");
+        if(ans.equals("ca1")){
+            cap_am++;
+        }
+        else if(ans.equals("im1")){
+            iro_ma++;
+        }
+        else if(ans.equals("th1")){
+            tho++;
+        }*/
+        
+        out.print("The score of captain america is: " + cap_am + "<br>");
+        out.print("The score of iron man is: " + iro_ma + "<br>");
+        out.print("The score of thor is: " + tho + "<br>");
     }
 
     /**
