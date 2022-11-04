@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.*;
 
+
 /**
  *
  * @author User
@@ -57,22 +58,6 @@ public class PostServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-         PrintWriter pw = response.getWriter();
-         String question = request.getParameter("ask");
-         
-         
-         try{
-             File entry = new File("C:/Users/User/Documents/Nigel_Folder/UST_RedditOverflow/data/entry3.txt");
-             FileWriter fstream = new FileWriter(entry, true);
-             BufferedWriter out = new BufferedWriter(fstream);
-             out.write(question);
-             out.newLine();
-             out.close();
-             response.sendRedirect("/UST_RedditOverflow");
-         }
-         catch(Exception e){
-             System.err.println("Error" + e.getMessage());
-         }
     }
 
     /**
@@ -87,6 +72,30 @@ public class PostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          //processRequest(request, response);
+         String header = request.getParameter("head");
+         String content = request.getParameter("cont");
+         String contextPath = getServletContext().getRealPath("/");
+         File path = new File(contextPath+"/entries");
+         if(!path.exists()){
+             path.mkdirs();
+         }
+        int fileCount = 0;
+        String folderPath = getServletContext().getRealPath("/entries");
+        File Filepath = new File(folderPath);
+        File [] filename= Filepath.listFiles();
+        for (File file : filename) {
+            if(file.isFile()){
+            fileCount++;
+            }
+        }
+        String newFile = header + ".txt";
+
+        FileOutputStream fos = new FileOutputStream(path + "/" + newFile, true);
+        byte[] b = content.getBytes();
+        fos.write(b);
+        fos.close();
+
+        response.sendRedirect("index.jsp");
     }
 
     /**
