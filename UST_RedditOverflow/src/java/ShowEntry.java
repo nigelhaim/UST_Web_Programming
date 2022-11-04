@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.*;
-import javax.servlet.*;
+import java.util.*;
 
 /**
  *
@@ -58,18 +58,36 @@ public class ShowEntry extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         response.setContentType("text/html");
-        String filename = getServletContext().getRealPath("/entries/" + request.getParameter("showEntry"));
-        File txt_file= new File(filename);  
+        String filename = request.getParameter("showEntry");
+        String subfilename = filename.substring(0, filename.length()-4);
+        String path = getServletContext().getRealPath("/entries/" + subfilename + "/" + filename );
+        File txt_file= new File(path);  
+        
+        String imgcontextPath = getServletContext().getRealPath("/entries");
+        File Filepath = new File(imgcontextPath);
+            
         try ( PrintWriter out = response.getWriter()) {
-            out.print(txt_file.getName());
+//            /out.print(txt_file.getName());
             BufferedReader br = new BufferedReader(new FileReader(txt_file));
-            String pr = "";
             out.print("<br>");
+            out.print("<h1>"+br.readLine()+"</h1>");
+                    if(Filepath.exists()){
+                File path_img = new File(imgcontextPath);
+                File [] img_filename= path_img.listFiles();
+                for (File folder_file : img_filename) {
+                    if(folder_file.isDirectory ()){
+                        for(final File file:folder_file.listFiles()){
+                            if(file.getName().endsWith(".jpg") || file.getName().endsWith(".png")){
+                                out.print("<img src=" + "./entries/" + subfilename + "/" + file.getName() + ">");
+                                //out.print(getServletContext().getRealPath("/entries/" + subfilename));
+                            }
+                        }
+                    }
+                } 
+            }
             out.print("<form>");
             out.print("<textarea>");
-            while((pr = br.readLine()) != null){
-                out.print(pr);
-            }
+            out.print(br.readLine());
             out.print("</textarea>");
             out.print("<input type=" + "\"submit\"" + "/>");
             out.print("</form>");

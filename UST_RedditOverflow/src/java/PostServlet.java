@@ -11,12 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.*;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Part;
 
 
 /**
  *
  * @author User
  */
+
+@WebServlet(name = "FileUploadServlet", urlPatterns = { "/fileuploadservlet" })
+@MultipartConfig(
+  fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
+  maxFileSize = 1024 * 1024 * 10,      // 10 MB
+  maxRequestSize = 1024 * 1024 * 100   // 100 MB
+)
 public class PostServlet extends HttpServlet {
 
     /**
@@ -75,26 +85,38 @@ public class PostServlet extends HttpServlet {
          String header = request.getParameter("head");
          String content = request.getParameter("cont");
          String contextPath = getServletContext().getRealPath("/");
+         Part img = request.getPart("file");
+         String img_name = img.getSubmittedFileName();
          File path = new File(contextPath+"/entries");
          if(!path.exists()){
              path.mkdirs();
          }
-        int fileCount = 0;
-        String folderPath = getServletContext().getRealPath("/entries");
-        File Filepath = new File(folderPath);
-        File [] filename= Filepath.listFiles();
-        for (File file : filename) {
-            if(file.isFile()){
-            fileCount++;
-            }
+        File entry_path = new File(contextPath+"/entries/"+header);
+        
+        if(!entry_path.exists()){
+             entry_path.mkdirs();
         }
         String newFile = header + ".txt";
 
-        FileOutputStream fos = new FileOutputStream(path + "/" + newFile, true);
+        FileOutputStream fos = new FileOutputStream(entry_path + "/" + newFile, true);
+        String fheader = header + "\n";
+        byte[] h = fheader.getBytes();
         byte[] b = content.getBytes();
+        fos.write(h);
         fos.write(b);
         fos.close();
+        
+        String img_path = contextPath+"/entries/"+header + "/" + img_name;
+            try (FileOutputStream img_fos = new FileOutputStream(img_path)) {
+                InputStream is = img.getInputStream();
 
+                byte[] data = new byte[is.available()];
+                is.read(data);
+                img_fos.write(data);
+            }
+        catch(Exception e){
+            System.out.print(e.getMessage());
+        }
         response.sendRedirect("index.jsp");
     }
 
@@ -107,5 +129,9 @@ public class PostServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private String extractFileName(Part img) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
 }

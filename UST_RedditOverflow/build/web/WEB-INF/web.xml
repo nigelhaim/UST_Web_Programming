@@ -3,6 +3,7 @@
     <servlet>
         <servlet-name>PostServlet</servlet-name>
         <servlet-class>PostServlet</servlet-class>
+
     </servlet>
     <servlet>
         <servlet-name>ShowEntry</servlet-name>

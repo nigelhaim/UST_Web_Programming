@@ -15,13 +15,13 @@
     </head>
     <body>
         <h1>Welcome to UST Overflow</h1>
-        <form method="post" action="PostServlet">
+        <form method="post" action="PostServlet" enctype="multipart/form-data">
             <h1>Ask something</h1>
             <h1>Note title:</h1><input id="head" name="head" size="15"><br>
-            <h2>Note content:</h2><input id="cont" name="cont" size="15"><br>
-            <input type="submit" value="submit" />      
-            <h2>Input Picture:</h2><input id="cont" name="cont" size="15"><br>
-            <input type="file" accept="image/png, image/jpg">
+            <h2>Note content:</h2><input id="cont" name="cont" size="15"><br>     
+            <h2>Input Picture:</h2>
+            <input type="file" accept="image/png, image/jpg" name="file">
+            <br>
             <input type="submit" value="submit" />
         </form>
         
@@ -34,13 +34,16 @@
                 if(Filepath.exists()){
                     File path = new File(contextPath);
                     File [] filename= path.listFiles();
-                    for (File file : filename) {
- 
-                        if(file.isFile()){
-                            out.print("<form method=" + "\"get\"" + "action=" + "\"ShowEntry\"" + ">" + 
-                            "<input type="+ "\"submit\"" + "name=" + "\"showEntry\"" + "value=" + "\"" + file.getName() + "\"" + ">" + 
-                            "</form>" + 
-                            "<br>");
+                    for (File folder_file : filename) {
+                        if(folder_file.isDirectory ()){
+                            for(final File file:folder_file.listFiles()){
+                                if(file.getName().endsWith(".txt")){
+                                    out.print("<form method=" + "\"get\"" + "action=" + "\"ShowEntry\"" + ">" + 
+                                    "<input type="+ "\"submit\"" + "name=" + "\"showEntry\"" + "value=" + "\"" + file.getName() + "\"" + ">" + 
+                                    "</form>" + 
+                                    "<br>");
+                                }
+                            }
                         }
                     } 
                 }
