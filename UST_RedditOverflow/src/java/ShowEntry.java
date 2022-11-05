@@ -93,9 +93,14 @@ public class ShowEntry extends HttpServlet {
                     }
                 } 
             }
+            out.print("<form method=" + "\"post\"" + " action=" + "\"EditIMGServlet\""+">"
+            + "<input type=\"file\" accept=\"image/png, image/jpg\" name=\"file\"> <br>" + 
+            "<input type=" + "\"hidden\"" + " name=" + "\"path\"" + " value=" + subfilename + ">" + 
+            "<input type=" + "\"submit\"" + " value=" + "\"Change Image\"" + ">");
+            
             out.print("<br>");
             out.print("<br>");
-            out.print("<input type=" + "\"file\"" + "accept=" + "\"image/png, image/jpg\"" + "name=" + "\"file\"" +">");
+ 
             out.print("<br>");
             out.print("<br>");
             out.print("<textarea name=" + "\"cont\"" + " id=" + "\"cont\"" + ">");
