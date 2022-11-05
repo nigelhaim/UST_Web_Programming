@@ -38,7 +38,7 @@ public class ShowEntry extends HttpServlet {
             out.println("<title>Servlet ShowEntry</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ShowEntry at " + request.getContextPath() + "</h1>");
+            doGet(request, response);
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,39 +58,54 @@ public class ShowEntry extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         response.setContentType("text/html");
-        String filename = request.getParameter("showEntry");
-        String subfilename = filename.substring(0, filename.length()-4);
-        String path = getServletContext().getRealPath("/entries/" + subfilename + "/" + filename );
+        String filename = "";
+        if(request.getParameter("showEntry") != null){
+            filename = request.getParameter("showEntry");
+        }
+        else{
+            filename = ((String) request.getAttribute("showEntry"));
+        }
+        
+        String subfilename = filename;
+        String path = getServletContext().getRealPath("/entries/" + subfilename + "/" + (filename+".txt") );
         File txt_file= new File(path);  
         
-        String imgcontextPath = getServletContext().getRealPath("/entries");
+        String imgcontextPath = getServletContext().getRealPath("/entries/" + subfilename);
         File Filepath = new File(imgcontextPath);
             
         try ( PrintWriter out = response.getWriter()) {
 //            /out.print(txt_file.getName());
             BufferedReader br = new BufferedReader(new FileReader(txt_file));
+            String s = "";
             out.print("<br>");
-            out.print("<h1>"+br.readLine()+"</h1>");
-                    if(Filepath.exists()){
-                File path_img = new File(imgcontextPath);
-                File [] img_filename= path_img.listFiles();
-                for (File folder_file : img_filename) {
-                    if(folder_file.isDirectory ()){
-                        for(final File file:folder_file.listFiles()){
-                            if(file.getName().endsWith(".jpg") || file.getName().endsWith(".png")){
-                                out.print("<img src=" + "./entries/" + subfilename + "/" + file.getName() + ">");
-                                //out.print(getServletContext().getRealPath("/entries/" + subfilename));
-                            }
-                        }
+            out.print("<form method=" + "\"post\"" + " action=" + "\"EditHeaderServlet\""+">"
+            + "<textarea" + " name=" + "\"new_head\"" + ">" + filename.replace("_", " ") + "</textarea>"  + 
+            "<input type=" + "\"hidden\"" + " name=" + "\"og_head\"" + " value=" + subfilename + ">" + 
+            "<br><input type=" + "\"submit\"" + " value=" + "\"Edit Header\"" + ">"
+            +"</form>");
+            out.print("<br>");
+            if(Filepath.exists()){
+                File [] img_filename= Filepath.listFiles();
+                for (File file : img_filename) {
+                    if(file.getName().endsWith(".jpg") || file.getName().endsWith(".png")){
+                        out.print("<img src=" + "./entries/" + subfilename + "/" + file.getName() + ">");
+                        //out.print(getServletContext().getRealPath("/entries/" + subfilename));
                     }
                 } 
             }
-            out.print("<form>");
-            out.print("<textarea>");
-            out.print(br.readLine());
+            out.print("<br>");
+            out.print("<br>");
+            out.print("<input type=" + "\"file\"" + "accept=" + "\"image/png, image/jpg\"" + "name=" + "\"file\"" +">");
+            out.print("<br>");
+            out.print("<br>");
+            out.print("<textarea name=" + "\"cont\"" + " id=" + "\"cont\"" + ">");
+            while((s = br.readLine()) != null){
+                out.print(s + "\r\n");
+            }
             out.print("</textarea>");
-            out.print("<input type=" + "\"submit\"" + "/>");
-            out.print("</form>");
+            out.print("<br>");
+            out.print("<br>");
+            
         }
     }
 

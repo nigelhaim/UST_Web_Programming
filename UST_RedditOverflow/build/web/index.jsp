@@ -18,11 +18,11 @@
         <form method="post" action="PostServlet" enctype="multipart/form-data">
             <h1>Ask something</h1>
             <h1>Note title:</h1><input id="head" name="head" size="15"><br>
-            <h2>Note content:</h2><input id="cont" name="cont" size="15"><br>     
+            <h2>Note content:</h2><textarea id="cont" name="cont" size="15"></textarea><br>     
             <h2>Input Picture:</h2>
             <input type="file" accept="image/png, image/jpg" name="file">
             <br>
-            <input type="submit" value="submit" />
+            <input type="submit" value="submit" name="submit" />
         </form>
         
         <br>
@@ -38,8 +38,10 @@
                         if(folder_file.isDirectory ()){
                             for(final File file:folder_file.listFiles()){
                                 if(file.getName().endsWith(".txt")){
+                                    String txtfilename = file.getName().toString();
                                     out.print("<form method=" + "\"get\"" + "action=" + "\"ShowEntry\"" + ">" + 
-                                    "<input type="+ "\"submit\"" + "name=" + "\"showEntry\"" + "value=" + "\"" + file.getName() + "\"" + ">" + 
+                                    "<button type="+ "\"submit\"" + "name=" + "\"showEntry\"" + "value=" + "\"" + txtfilename.substring(0, txtfilename.length()-4) + "\"" + "/>" + 
+                                    txtfilename.substring(0, txtfilename.length()-4).replaceAll("_", " ") + "</button>" + 
                                     "</form>" + 
                                     "<br>");
                                 }

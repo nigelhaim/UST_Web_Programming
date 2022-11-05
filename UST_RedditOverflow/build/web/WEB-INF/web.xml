@@ -3,11 +3,14 @@
     <servlet>
         <servlet-name>PostServlet</servlet-name>
         <servlet-class>PostServlet</servlet-class>
-
     </servlet>
     <servlet>
         <servlet-name>ShowEntry</servlet-name>
         <servlet-class>ShowEntry</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditHeaderServlet</servlet-name>
+        <servlet-class>EditHeaderServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>PostServlet</servlet-name>
@@ -16,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>ShowEntry</servlet-name>
         <url-pattern>/ShowEntry</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditHeaderServlet</servlet-name>
+        <url-pattern>/EditHeaderServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

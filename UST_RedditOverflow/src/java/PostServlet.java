@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.*;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Part;
-
 
 /**
  *
@@ -82,11 +82,12 @@ public class PostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          //processRequest(request, response);
-         String header = request.getParameter("head");
+         String header = request.getParameter("head").replace(" ", "_");
          String content = request.getParameter("cont");
          String contextPath = getServletContext().getRealPath("/");
-         Part img = request.getPart("file");
-         String img_name = img.getSubmittedFileName();
+         Part img;
+         img = request.getPart("file");
+         String img_name = img.getSubmittedFileName().replaceAll(" ", "_");
          File path = new File(contextPath+"/entries");
          if(!path.exists()){
              path.mkdirs();
@@ -96,6 +97,12 @@ public class PostServlet extends HttpServlet {
         if(!entry_path.exists()){
              entry_path.mkdirs();
         }
+        String[] del = entry_path.list();
+        for (String s1:del){
+            File f1 = new File (entry_path,s1);
+            f1.delete();   
+        }
+        
         String newFile = header + ".txt";
 
         FileOutputStream fos = new FileOutputStream(entry_path + "/" + newFile, true);
@@ -117,7 +124,9 @@ public class PostServlet extends HttpServlet {
         catch(Exception e){
             System.out.print(e.getMessage());
         }
-        response.sendRedirect("index.jsp");
+        request.setAttribute("showEntry", header);
+        RequestDispatcher rd = request.getRequestDispatcher("ShowEntry");
+        rd.forward(request, response);
     }
 
     /**
