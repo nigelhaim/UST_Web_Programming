@@ -3,13 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-import java.io.File;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.File_category;
+import java.util.*;
+import javax.servlet.RequestDispatcher;
 
 /**
  *
@@ -37,6 +40,19 @@ public class CategoriesServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet CategoriesServlet at " + request.getContextPath() + "</h1>");
+            String category = request.getParameter("categories");
+            String contextPath = getServletContext().getRealPath("/entries");
+            File_category f_category = new File_category();
+            List file_list = f_category.getFiles(category, contextPath);
+            if(file_list == null){
+                response.sendRedirect("index.jsp");
+            }
+            else{
+                request.setAttribute("category", category);
+                request.setAttribute("file_list", file_list);
+                RequestDispatcher view = request.getRequestDispatcher("Categorized_files.jsp");
+                view.forward(request, response);
+            }
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,8 +70,8 @@ public class CategoriesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-         try ( PrintWriter out = response.getWriter()) {
+        processRequest(request, response);
+        /* try ( PrintWriter out = response.getWriter()) {
             //out.print(request.getParameter("categories"));
             String c = request.getParameter("categories");
             
@@ -88,8 +104,8 @@ public class CategoriesServlet extends HttpServlet {
                 }
             }catch(Exception e){
                 out.print("Not Entries");
-            } 
-         }
+            }
+         }*/
     }
 
     /**

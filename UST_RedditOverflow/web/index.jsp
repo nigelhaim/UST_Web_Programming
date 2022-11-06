@@ -29,12 +29,12 @@
         <form method="get" action="CategoriesServlet">
             <label>Categories: </label>
             <select name ="categories" onchange='if(this.value !== 0) { this.form.submit(); }'>
-                <option value='0'>Select</option>
+                <option value=0>Select</option>
+                <option value='All'>All Files</option>
                 <option value='.java'>.java</option>
                 <option value='.jsp'>.jsp</option>
                 <option value='.html'>.html</option>
                 <option value='.css'>.css</option>
-                <option value='All'>All Files</option>
             </select>
         </form>
         <!-- comment<%
