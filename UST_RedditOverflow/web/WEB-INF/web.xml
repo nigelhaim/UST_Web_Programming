@@ -10,7 +10,7 @@
     </servlet>
     <servlet>
         <servlet-name>CategoriesServlet</servlet-name>
-        <servlet-class>CategoriesServlet</servlet-class>
+        <servlet-class>contoller.CategoriesServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>PostServlet</servlet-name>
