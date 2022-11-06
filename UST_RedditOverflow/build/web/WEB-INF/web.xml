@@ -9,12 +9,8 @@
         <servlet-class>ShowEntry</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>EditHeaderServlet</servlet-name>
-        <servlet-class>EditHeaderServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>EditIMGServlet</servlet-name>
-        <servlet-class>EditIMGServlet</servlet-class>
+        <servlet-name>CategoriesServlet</servlet-name>
+        <servlet-class>CategoriesServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>PostServlet</servlet-name>
@@ -25,12 +21,8 @@
         <url-pattern>/ShowEntry</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>EditHeaderServlet</servlet-name>
-        <url-pattern>/EditHeaderServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>EditIMGServlet</servlet-name>
-        <url-pattern>/EditIMGServlet</url-pattern>
+        <servlet-name>CategoriesServlet</servlet-name>
+        <url-pattern>/CategoriesServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

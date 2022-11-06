@@ -3,8 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-import java.io.*;
-import javax.servlet.RequestDispatcher;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author nigel
  */
-public class EditHeaderServlet extends HttpServlet {
+public class CategoriesServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,10 +33,10 @@ public class EditHeaderServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditHeaderServlet</title>");            
+            out.println("<title>Servlet CategoriesServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditHeaderServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CategoriesServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -53,7 +54,42 @@ public class EditHeaderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+         try ( PrintWriter out = response.getWriter()) {
+            //out.print(request.getParameter("categories"));
+            String c = request.getParameter("categories");
+            
+            
+            try{
+                String contextPath = getServletContext().getRealPath("/entries");
+                File Filepath = new File(contextPath);
+                String finfilename;
+                if(Filepath.exists()){
+                    File path = new File(contextPath);
+                    File [] filename= path.listFiles();
+                    for (File folder_file : filename) {
+                        if(folder_file.isDirectory ()){
+                            for(final File file:folder_file.listFiles()){
+                                if(!c.equals("All")){
+                                    if(file.getName().endsWith(c)){
+                                    finfilename = file.getName().toString();
+                                    out.print(finfilename);
+                                    }
+                                }
+                                else{
+                                    if(!file.getName().endsWith(".txt")){
+                                        finfilename = file.getName().toString();
+                                        out.print(finfilename);
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                }
+            }catch(Exception e){
+                out.print("Not Entries");
+            } 
+         }
     }
 
     /**
@@ -67,27 +103,7 @@ public class EditHeaderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        try ( PrintWriter out = response.getWriter()) {
-
-            String oldString = request.getParameter("og_head");
-            String newStrng = request.getParameter("new_head");
-            //out.print(getServletContext().getRealPath("/entries/" + oldString + "/"));
-            //out.print(getServletContext().getRealPath("/entries/" + oldString) + "\\" + oldString + ".txt");
-            String txt_path = getServletContext().getRealPath("/entries" + "\\"+ oldString);
-            String newFileName = newStrng.replace(" ","_");
-            File old_txt_name = new File(txt_path + "\\" + oldString + ".txt");
-        
-            old_txt_name.renameTo(new File(txt_path + "\\" + newFileName + ".txt"));
-            File old_folder_name = new File(txt_path);  
-            String newFolder_name = getServletContext().getRealPath("/entries/");
-            old_folder_name.renameTo(new File(newFolder_name + "\\" + newFileName));
-            
-            /*request.setAttribute("showEntry", newStrng);
-            RequestDispatcher rd = request.getRequestDispatcher("ShowEntry");
-            rd.forward(request, response);*/
-            //response.sendRedirect("index.jsp");
-        }
+        processRequest(request, response);
     }
 
     /**

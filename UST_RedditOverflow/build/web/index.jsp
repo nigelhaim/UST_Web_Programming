@@ -20,14 +20,24 @@
             <h1>Note title:</h1><input id="head" name="head" size="15"><br>
             <h2>Note content:</h2><textarea id="cont" name="cont" size="15"></textarea><br>     
             <h2>Input Picture:</h2>
-            <input type="file" accept="image/png, image/jpg" name="file">
+            <input type="file" accepts=".pdf, .java, .jsp, .html, .css,.js, .doc, .docx" name="file">
             <br>
             <input type="submit" value="submit" name="submit" />
         </form>
         
         <br>
-        
-        <%
+        <form method="get" action="CategoriesServlet">
+            <label>Categories: </label>
+            <select name ="categories" onchange='if(this.value !== 0) { this.form.submit(); }'>
+                <option value='0'>Select</option>
+                <option value='.java'>.java</option>
+                <option value='.jsp'>.jsp</option>
+                <option value='.html'>.html</option>
+                <option value='.css'>.css</option>
+                <option value='All'>All Files</option>
+            </select>
+        </form>
+        <!-- comment<%
             try{
                 String contextPath = getServletContext().getRealPath("/entries");
                 File Filepath = new File(contextPath);
@@ -52,6 +62,6 @@
             }catch(Exception e){
                 out.print("Not Entries");
             } 
-        %>
+        %>-->
     </body>
 </html>
