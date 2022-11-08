@@ -89,7 +89,7 @@ public class ShowEntry extends HttpServlet {
                 File [] img_filename= Filepath.listFiles();
                 for (File file : img_filename) {
                     if(!file.getName().endsWith(".txt")){
-                        out.print("<a href=" + "./entries/" + subfilename + "/" + file.getName() + ">" + file.getName().replace("_", " ") + "</a>");
+                        out.print("<a href=" + imgcontextPath + "\\" + file.getName() + " download" + ">" + file.getName().replace("_", " ") + "</a>");
                         //out.print(getServletContext().getRealPath("/entries/" + subfilename));
                     }
                 } 

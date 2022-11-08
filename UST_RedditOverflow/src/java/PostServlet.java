@@ -82,12 +82,13 @@ public class PostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
          //processRequest(request, response);
-         String header = request.getParameter("head").replace(" ", "_");
+         String header;
          String content = request.getParameter("cont");
          String contextPath = getServletContext().getRealPath("/");
          Part img;
          img = request.getPart("file");
          String img_name = img.getSubmittedFileName().replaceAll(" ", "_");
+         header = img_name;
          File path = new File(contextPath+"/entries");
          if(!path.exists()){
              path.mkdirs();
@@ -122,9 +123,7 @@ public class PostServlet extends HttpServlet {
         catch(Exception e){
             System.out.print(e.getMessage());
         }
-        request.setAttribute("showEntry", header);
-        RequestDispatcher rd = request.getRequestDispatcher("ShowEntry");
-        rd.forward(request, response);
+        response.sendRedirect("index.jsp");
     }
 
     /**

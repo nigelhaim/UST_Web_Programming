@@ -24,7 +24,11 @@
                     String og_filename = it.next();
                     int num = og_filename.lastIndexOf('.');
                     String nw_filename = og_filename.substring(0, num);
-                    out.print("<br>" + nw_filename);
+                    out.print("<form method=" + "\"get\"" + "action=" + "\"ShowEntry\"" + ">" + 
+                                    "<button type="+ "\"submit\"" + "name=" + "\"showEntry\"" + "value=" + "\"" + og_filename + "\"" + "/>" + 
+                                    nw_filename + "</button>" + 
+                                    "</form>" + 
+                                    "<br>");
                 }
                 
             %>

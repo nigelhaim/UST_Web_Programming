@@ -17,10 +17,11 @@
         <h1>Welcome to UST Overflow</h1>
         <form method="post" action="PostServlet" enctype="multipart/form-data">
             <h1>Ask something</h1>
-            <h1>Note title:</h1><input id="head" name="head" size="15"><br>
-            <h2>Note content:</h2><textarea id="cont" name="cont" size="15"></textarea><br>     
-            <h2>Input Picture:</h2>
+            <h2>Input File:</h2>
+            <br>
             <input type="file" accepts=".pdf, .java, .jsp, .html, .css,.js, .doc, .docx" name="file">
+            <br>
+            <h2>File Description:</h2><textarea id="cont" name="cont" size="15"></textarea><br>   
             <br>
             <input type="submit" value="submit" name="submit" />
         </form>
@@ -29,7 +30,7 @@
         <form method="get" action="CategoriesServlet">
             <label>Categories: </label>
             <select name ="categories" onchange='if(this.value !== 0) { this.form.submit(); }'>
-                <option value=0>Select</option>
+                <option value= '0'>Select</option>
                 <option value='All'>All Files</option>
                 <option value='.java'>.java</option>
                 <option value='.jsp'>.jsp</option>

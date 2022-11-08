@@ -12,10 +12,12 @@ package model;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
 public class File_category {
 
     public List<String> getFiles(String c, String contextPath){
         List<String> file_list = new ArrayList<String>();
+        
         try{
             File Filepath = new File(contextPath);
             String finfilename;

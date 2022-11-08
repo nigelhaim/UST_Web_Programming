@@ -16,6 +16,7 @@ import model.File_category;
 import java.util.*;
 import javax.servlet.RequestDispatcher;
 
+
 /**
  *
  * @author nigel
@@ -41,7 +42,6 @@ public class CategoriesServlet extends HttpServlet {
             out.println("<title>Servlet CategoriesServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CategoriesServlet at " + request.getContextPath() + "</h1>");
             String category = request.getParameter("categories");
             String contextPath = getServletContext().getRealPath("/entries");
             File_category f_category = new File_category();
@@ -50,10 +50,31 @@ public class CategoriesServlet extends HttpServlet {
                 response.sendRedirect("index.jsp");
             }
             else{
-                request.setAttribute("category", category);
-                request.setAttribute("file_list", file_list);
-                RequestDispatcher view = request.getRequestDispatcher("Categorized_files.jsp");
-                view.forward(request, response);
+                if(!category.equals("All")){
+                    request.setAttribute("category", category);
+                    request.setAttribute("file_list", file_list);
+                    RequestDispatcher view = request.getRequestDispatcher("Categorized_files.jsp");
+                    view.forward(request, response);
+                }
+                else{
+                    Iterator<String> it = file_list.iterator();
+                    RequestDispatcher view = request.getRequestDispatcher("index.jsp");
+                    view.include(request, response);
+                    while(it.hasNext()){
+                    String og_filename = it.next();
+                    int num = og_filename.lastIndexOf('.');
+                    String nw_filename = og_filename.substring(0, num);
+                    out.print("<form method=" + "\"get\"" + "action=" + "\"ShowEntry\"" + ">" + 
+                                    "<button type="+ "\"submit\"" + "name=" + "\"showEntry\"" + "value=" + "\"" + og_filename + "\"" + "/>" + 
+                                    nw_filename + "</button>" + 
+                                    "</form>");
+                    out.print("<form method=" + "\"post\"" + "action=" + "\"DeleteServlet\"" + ">" + 
+                                    "<button type="+ "\"submit\"" + "name=" + "\"DeleteServlet\"" + "value=" + "\"" + og_filename + "\"" + "/>" + 
+                                    "Delete" + "</button>" + 
+                                    "</form>" + 
+                                    "<br>");
+                    }
+                }                     
             }
             out.println("</body>");
             out.println("</html>");
