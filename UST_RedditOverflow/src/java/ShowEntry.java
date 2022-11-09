@@ -84,13 +84,18 @@ public class ShowEntry extends HttpServlet {
             "<br><input type=" + "\"submit\"" + " value=" + "\"Edit Header\"" + ">"
             +"</form>");*/
             out.print("<h1>"+ filename.replace("_", " ") + "</h1>");
+            out.print(filename.replace("_", " "));
             out.print("<br>");
             if(Filepath.exists()){
                 File [] img_filename= Filepath.listFiles();
                 for (File file : img_filename) {
                     if(!file.getName().endsWith(".txt")){
-                        out.print("<a href=" + imgcontextPath + "\\" + file.getName() + " download" + ">" + file.getName().replace("_", " ") + "</a>");
-                        //out.print(getServletContext().getRealPath("/entries/" + subfilename));
+                        out.print("<a href=" + "/entries/" + file.getName() + "/" + file.getName() + " download" + ">" + "Download" + "</a>");
+                        out.print("<br>");
+                        out.print("<form method=" + "\"get\"" + " action =" + "\"showContent\"" + ">");
+                        out.print("<input type=" + "\"hidden\"" + "value=" + "\"" + file.getName() + "\"" + "id=" + "ShowContent" + " name=" + "ShowContent" +">");
+                        out.print("<input type=" + "\"submit\"" + "value=" +  "\"View File\"" + ">");
+                        out.print("</form>");
                     }
                 } 
             }
