@@ -107,7 +107,6 @@ public class PostServlet extends HttpServlet {
         String newFile = header + ".txt";
 
         FileOutputStream fos = new FileOutputStream(entry_path + "/" + newFile, true);
-        String fheader = header + "\n";
         byte[] b = content.getBytes();
         fos.write(b);
         fos.close();

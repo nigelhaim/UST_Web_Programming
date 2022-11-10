@@ -20,6 +20,10 @@
         <servlet-name>showContent</servlet-name>
         <servlet-class>showContent</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditServlet</servlet-name>
+        <servlet-class>EditServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PostServlet</servlet-name>
         <url-pattern>/PostServlet</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>showContent</servlet-name>
         <url-pattern>/showContent</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditServlet</servlet-name>
+        <url-pattern>/EditServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

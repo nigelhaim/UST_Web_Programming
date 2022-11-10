@@ -3,23 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLConnection;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.*;
-
-import javax.servlet.*;
-
 /**
  *
  * @author nigel
  */
-public class showContent extends HttpServlet {
+public class EditServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +36,10 @@ public class showContent extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet showContent</title>");            
+            out.println("<title>Servlet EditServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet showContent at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,33 +57,8 @@ public class showContent extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        //try ( PrintWriter p = response.getWriter()) {
-        String filename = request.getParameter("ShowContent");
-        String mimeType = URLConnection.guessContentTypeFromName(filename);
-        ServletOutputStream out = response.getOutputStream();
-        String path = getServletContext().getRealPath("/entries/" + filename + "/" + (filename) );
-        FileInputStream flinp = new FileInputStream(path);
-         BufferedInputStream buffinp = new BufferedInputStream(flinp);
-         BufferedOutputStream buffoup = new BufferedOutputStream(out);
-         int ch=0;
-
-         while ((ch=buffinp.read()) != -1) {
-
-         buffoup.write(ch);
-
-         }
-
-         buffinp.close();
-
-         flinp.close();
-
-         buffoup.close();
-
-         out.close();
-
+        processRequest(request, response);
     }
-        //}
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -97,7 +71,31 @@ public class showContent extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            try ( PrintWriter out = response.getWriter()) {
+                String new_content = request.getParameter("cont");
+                String filename = request.getParameter("file");
+                String file_path = getServletContext().getRealPath("/entries/" + filename + "/" + filename + ".txt");
+                File f = new File(file_path);
+                /*out.print(new_content);
+                out.print(file);
+                out.print(file_path);*/
+                try{
+                    FileWriter fw = new FileWriter(f, false);
+                    PrintWriter pw = new PrintWriter(fw, false);
+                    pw.flush();                     
+                    pw.close();
+                    fw.close(); 
+                    FileOutputStream fos = new FileOutputStream(f, true);
+                    byte[] b = new_content.getBytes();
+                    fos.write(b);
+                    request.setAttribute("showEntry", filename);
+                    RequestDispatcher view = request.getRequestDispatcher("ShowEntry");
+                    view.forward(request, response);
+                }catch(Exception e){
+                    out.print(e.getMessage());
+                }
+                out.print(f);
+            }
     }
 
     /**

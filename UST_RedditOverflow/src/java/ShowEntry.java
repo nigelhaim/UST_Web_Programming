@@ -72,7 +72,7 @@ public class ShowEntry extends HttpServlet {
         
         String imgcontextPath = getServletContext().getRealPath("/entries/" + subfilename);
         File Filepath = new File(imgcontextPath);
-            
+        String fp = "";
         try ( PrintWriter out = response.getWriter()) {
 //            /out.print(txt_file.getName());
             BufferedReader br = new BufferedReader(new FileReader(txt_file));
@@ -90,10 +90,11 @@ public class ShowEntry extends HttpServlet {
                 File [] img_filename= Filepath.listFiles();
                 for (File file : img_filename) {
                     if(!file.getName().endsWith(".txt")){
-                        out.print("<a href=" + "/entries/" + file.getName() + "/" + file.getName() + " download" + ">" + "Download" + "</a>");
+                        fp = file.getName();
+                        out.print("<a href=" + "/entries/" + file.getName() + "/" + fp+ " download" + ">" + "Download" + "</a>");
                         out.print("<br>");
                         out.print("<form method=" + "\"get\"" + " action =" + "\"showContent\"" + ">");
-                        out.print("<input type=" + "\"hidden\"" + "value=" + "\"" + file.getName() + "\"" + "id=" + "ShowContent" + " name=" + "ShowContent" +">");
+                        out.print("<input type=" + "\"hidden\"" + "value=" + "\"" + fp + "\"" + "id=" + "ShowContent" + " name=" + "ShowContent" +">");
                         out.print("<input type=" + "\"submit\"" + "value=" +  "\"View File\"" + ">");
                         out.print("</form>");
                     }
@@ -110,14 +111,15 @@ public class ShowEntry extends HttpServlet {
             out.print("<br>");
             out.print("<br>");
             out.print("Editable description form");
-            out.print("<form method =" + "\"post\"" + ">");
-            out.print("<textarea name=" + "\"cont\"" + " id=" + "\"cont\"" + ">");
+            out.print("<form method =" + "\"post\"" + " action=" + "\"EditServlet\"" + ">");
+            out.print("<input type=" + "\"hidden\"" + "value=" + "\"" + fp + "\"" + "id=" + "\"file\"" + " name=" + "\"file\"" +">");
+            out.print("<textarea name=" + "\"cont\"" + " id=" + "\"cont\"" + " name=" + "\"cont\"" + ">");
             while((s = br.readLine()) != null){
                 out.print(s + "\r\n");
             }
             out.print("</textarea>");
             out.print("<br>");
-            out.print("<input type = " + "\"submit\"" + " value=" + "\"submit\"");
+            out.print("<input type = " + "\"submit\"" + " value=" + "\"submit\"" + ">");
             out.print("</form>");
             out.print("<br>");
             out.print("<br>");
