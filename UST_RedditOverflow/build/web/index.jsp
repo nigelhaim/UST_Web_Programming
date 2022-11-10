@@ -11,6 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="./styles.css" />
         <title>JSP Page</title>
     </head>
     <body>
@@ -19,9 +20,10 @@
             <h1>Ask something</h1>
             <h2>Input File:</h2>
             <br>
-            <input type="file" accepts=".pdf, .java, .jsp, .html, .css,.js, .doc, .docx" name="file">
+            
+            <input type="file" class="fileInput" accepts=".pdf, .java, .jsp, .html, .css,.js, .doc, .docx" name="file" />
             <br>
-            <h2>File Description:</h2><textarea id="cont" name="cont" size="15"></textarea><br>   
+            <h2>File Description:</h2><textarea id="cont" name="cont" size="15" class="description"></textarea><br>   
             <br>
             <input type="submit" value="submit" name="submit" />
         </form>
@@ -38,31 +40,25 @@
                 <option value='.css'>.css</option>
             </select>
         </form>
-        <!-- comment<%
+        <%
+            List file_list;
             try{
-                String contextPath = getServletContext().getRealPath("/entries");
-                File Filepath = new File(contextPath);
-                if(Filepath.exists()){
-                    File path = new File(contextPath);
-                    File [] filename= path.listFiles();
-                    for (File folder_file : filename) {
-                        if(folder_file.isDirectory ()){
-                            for(final File file:folder_file.listFiles()){
-                                if(file.getName().endsWith(".txt")){
-                                    String txtfilename = file.getName().toString();
-                                    out.print("<form method=" + "\"get\"" + "action=" + "\"ShowEntry\"" + ">" + 
-                                    "<button type="+ "\"submit\"" + "name=" + "\"showEntry\"" + "value=" + "\"" + txtfilename.substring(0, txtfilename.length()-4) + "\"" + "/>" + 
-                                    txtfilename.substring(0, txtfilename.length()-4).replaceAll("_", " ") + "</button>" + 
+                file_list = (List)request.getAttribute("file_list");
+                Iterator<String> it = file_list.iterator();
+
+                while(it.hasNext()){
+                    String og_filename = it.next();
+                    int num = og_filename.lastIndexOf('.');
+                    String nw_filename = og_filename.substring(0, num);
+                    out.print("<form method=" + "\"get\"" + "action=" + "\"ShowEntry\"" + ">" + 
+                                    "<button type="+ "\"submit\"" + "name=" + "\"showEntry\"" + "value=" + "\"" + og_filename + "\"" + "/>" + 
+                                    nw_filename + "</button>" + 
                                     "</form>" + 
                                     "<br>");
-                                }
-                            }
-                        }
-                    } 
                 }
-            }catch(Exception e){
-                out.print("Not Entries");
-            } 
-        %>-->
+            }catch(NullPointerException e){
+                file_list = new ArrayList<String>();
+            }
+        %>
     </body>
 </html>

@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title><% out.print(request.getAttribute("category")); %></title>
     </head>
     <body>
         <h1>
@@ -29,6 +29,11 @@
                                     nw_filename + "</button>" + 
                                     "</form>" + 
                                     "<br>");
+                    out.print("<form method=" + "\"post\"" + "action=" + "\"DeleteServlet\"" + ">" + 
+                    "<button type="+ "\"submit\"" + "class=" + "\"delete\"" + "name=" + "\"DeleteServlet\"" + "value=" + "\"" +og_filename + "\"" + "/>" + 
+                    "Delete" + "</button>" + 
+                    "</form>" + 
+                    "<br>");
                 }
                 
             %>

@@ -1,14 +1,13 @@
+package contoller;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author nigel
  */
-public class EditServlet extends HttpServlet {
+public class DeleteServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +35,10 @@ public class EditServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditServlet</title>");            
+            out.println("<title>Servlet DeleteServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,7 +56,7 @@ public class EditServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        processRequest(request, response);  
     }
 
     /**
@@ -71,32 +70,30 @@ public class EditServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            try ( PrintWriter out = response.getWriter()) {
-                String new_content = request.getParameter("cont");
-                String filename = request.getParameter("file");
-                String file_path = getServletContext().getRealPath("/entries/" + filename + "/" + filename + ".txt");
-                File f = new File(file_path);
-                /*out.print(new_content);
-                out.print(file);
-                out.print(file_path);*/
-                try{
-                    FileWriter fw = new FileWriter(f, false);
-                    PrintWriter pw = new PrintWriter(fw, false);
-                    pw.flush();                     
-                    pw.close();
-                    fw.close(); 
-                    FileOutputStream fos = new FileOutputStream(f, true);
-                    byte[] b = new_content.getBytes();
-                    fos.write(b);
-                    request.setAttribute("showEntry", filename);
-                    RequestDispatcher view = request.getRequestDispatcher("ShowEntry");
-                    view.forward(request, response);
-                }catch(Exception e){
-                    out.print(e.getMessage());
+        //processRequest(request, response);
+                try ( PrintWriter out = response.getWriter()) {
+            String f_p = request.getParameter("DeleteServlet");
+            String p = getServletContext().getRealPath("/entries/" + f_p);
+            try{
+            File Filepath = new File(p);
+            if(Filepath.exists()){
+                //out.print(Filepath);
+                File [] folder_content = Filepath.listFiles();
+                for(final File folder_file : folder_content){
+                    folder_file.delete();
                 }
-                out.print(f);
+                if(Filepath.delete()){
+                    response.sendRedirect("index.jsp");
+                }
+                else{
+                    out.print("Failed");
+                }
             }
-    }
+            }catch(Exception e){
+                out.print("Error");
+            }
+            }
+        } 
 
     /**
      * Returns a short description of the servlet.

@@ -2,7 +2,7 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <servlet>
         <servlet-name>PostServlet</servlet-name>
-        <servlet-class>PostServlet</servlet-class>
+        <servlet-class>contoller.PostServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ShowEntry</servlet-name>
@@ -14,7 +14,7 @@
     </servlet>
     <servlet>
         <servlet-name>DeleteServlet</servlet-name>
-        <servlet-class>DeleteServlet</servlet-class>
+        <servlet-class>contoller.DeleteServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>showContent</servlet-name>
@@ -22,7 +22,7 @@
     </servlet>
     <servlet>
         <servlet-name>EditServlet</servlet-name>
-        <servlet-class>EditServlet</servlet-class>
+        <servlet-class>contoller.EditServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>PostServlet</servlet-name>

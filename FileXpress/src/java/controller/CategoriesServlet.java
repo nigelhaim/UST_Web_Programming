@@ -1,10 +1,4 @@
-package contoller;
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
+package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,19 +6,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.File_category;
+import model.FileCategories;
 import java.util.*;
 import javax.servlet.RequestDispatcher;
 
-
-/**
- *
- * @author nigel
- */
 public class CategoriesServlet extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -44,22 +34,25 @@ public class CategoriesServlet extends HttpServlet {
             out.println("<body>");
             String category = request.getParameter("categories");
             String contextPath = getServletContext().getRealPath("/entries");
-            File_category f_category = new File_category();
-            List file_list = f_category.getFiles(category, contextPath);
-            if(file_list == null){
+            FileCategories f_category = new FileCategories();
+            List fileList = f_category.getFiles(category, contextPath);
+            if(fileList == null){
                 response.sendRedirect("index.jsp");
             }
             else{
                 if(!category.equals("All")){
                     request.setAttribute("category", category);
-                    request.setAttribute("file_list", file_list);
-                    RequestDispatcher view = request.getRequestDispatcher("Categorized_files.jsp");
+                    request.setAttribute("fileList", fileList);
+                    RequestDispatcher view = request.getRequestDispatcher("result.jsp");
                     view.forward(request, response);
                 }
                 else{
-                    request.setAttribute("file_list", file_list);
+                    request.setAttribute("fileList", fileList);
                     RequestDispatcher view = request.getRequestDispatcher("index.jsp");
                     view.forward(request, response);
+                   
+                
+                    
                     /*while(it.hasNext()){
                     String og_filename = it.next();
                     int num = og_filename.lastIndexOf('.');
@@ -94,41 +87,6 @@ public class CategoriesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        /* try ( PrintWriter out = response.getWriter()) {
-            //out.print(request.getParameter("categories"));
-            String c = request.getParameter("categories");
-            
-            
-            try{
-                String contextPath = getServletContext().getRealPath("/entries");
-                File Filepath = new File(contextPath);
-                String finfilename;
-                if(Filepath.exists()){
-                    File path = new File(contextPath);
-                    File [] filename= path.listFiles();
-                    for (File folder_file : filename) {
-                        if(folder_file.isDirectory ()){
-                            for(final File file:folder_file.listFiles()){
-                                if(!c.equals("All")){
-                                    if(file.getName().endsWith(c)){
-                                    finfilename = file.getName().toString();
-                                    out.print(finfilename);
-                                    }
-                                }
-                                else{
-                                    if(!file.getName().endsWith(".txt")){
-                                        finfilename = file.getName().toString();
-                                        out.print(finfilename);
-                                    }
-                                }
-                            }
-                        }
-                    } 
-                }
-            }catch(Exception e){
-                out.print("Not Entries");
-            }
-         }*/
     }
 
     /**

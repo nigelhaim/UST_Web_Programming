@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
+package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,11 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.*;
+import java.util.*;
+import javax.servlet.ServletConfig;
 
-/**
- *
- * @author nigel
- */
 public class ShowEntry extends HttpServlet {
 
     /**
@@ -56,6 +51,10 @@ public class ShowEntry extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        
+        ServletConfig config = getServletConfig();
+        String name = config.getInitParameter("name");
+        
         response.setContentType("text/html");
         String filename = "";
         if(request.getParameter("showEntry") != null){
@@ -66,7 +65,7 @@ public class ShowEntry extends HttpServlet {
         }
         
         String subfilename = filename;
-        String path = getServletContext().getRealPath("/entries/" + subfilename + "/" + (filename+".txt") );
+        String path = getServletContext().getRealPath("/entries/" + subfilename + "/" + (filename + ".txt") );
         File txt_file= new File(path);  
         
         String imgcontextPath = getServletContext().getRealPath("/entries/" + subfilename);
@@ -74,14 +73,12 @@ public class ShowEntry extends HttpServlet {
         String fp = "";
         try ( PrintWriter out = response.getWriter()) {
 //            /out.print(txt_file.getName());
+            out.print("<h1>"+name+"</h1>");
             BufferedReader br = new BufferedReader(new FileReader(txt_file));
             String s = "";
+            
             out.print("<br>");
-            /*out.print("<form method=" + "\"post\"" + " action=" + "\"EditHeaderServlet\""+">"
-            + "<textarea" + " name=" + "\"new_head\"" + ">" + filename.replace("_", " ") + "</textarea>"  + 
-            "<input type=" + "\"hidden\"" + " name=" + "\"og_head\"" + " value=" + subfilename + ">" + 
-            "<br><input type=" + "\"submit\"" + " value=" + "\"Edit Header\"" + ">"
-            +"</form>");*/
+            
             out.print("<h1>"+ filename.replace("_", " ") + "</h1>");
             out.print(filename.replace("_", " "));
             out.print("<br>");
@@ -90,9 +87,8 @@ public class ShowEntry extends HttpServlet {
                 for (File file : img_filename) {
                     if(!file.getName().endsWith(".txt")){
                         fp = file.getName();
-                        out.print("<a href=" + "/entries/" + file.getName() + "/" + fp+ " download" + ">" + "Download" + "</a>");
                         out.print("<br>");
-                        out.print("<form method=" + "\"get\"" + " action =" + "\"showContent\"" + ">");
+                        out.print("<form method=" + "\"get\"" + " action =" + "\"ShowContent\"" + ">");
                         out.print("<input type=" + "\"hidden\"" + "value=" + "\"" + fp + "\"" + "id=" + "ShowContent" + " name=" + "ShowContent" +">");
                         out.print("<input type=" + "\"submit\"" + "value=" +  "\"View File\"" + ">");
                         out.print("</form>");
@@ -106,7 +102,7 @@ public class ShowEntry extends HttpServlet {
             
             out.print("<br>");
             out.print("<br>");
- 
+
             out.print("<br>");
             out.print("<br>");
             out.print("Editable description form");
@@ -122,18 +118,9 @@ public class ShowEntry extends HttpServlet {
             out.print("</form>");
             out.print("<br>");
             out.print("<br>");
-            
         }
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -145,6 +132,7 @@ public class ShowEntry extends HttpServlet {
      *
      * @return a String containing servlet description
      */
+    
     @Override
     public String getServletInfo() {
         return "Short description";
