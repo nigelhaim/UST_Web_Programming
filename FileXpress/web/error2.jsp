@@ -17,15 +17,8 @@
   </head>
 
   <body>
-    <header id="header">
-      <h1 id="app-name">code 2 go</h1>
-      <nav id="nav-bar">
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#about-us">About us</a></li>
-        </ul>
-      </nav>
+    <header id="error-header">
+      <h1 id="app-name">FileXpress</h1>
     </header>
 
     <div class="error">
@@ -37,7 +30,7 @@
         <img id="error-img-2" src="https://cdn.discordapp.com/attachments/1013982573841616907/1038356330441883658/error_icon2.png" alt="error icon" />
       </div>
       <h3>It seems like the page isn't working and could not complete your request. It is advisable to <span id="bold">return to the homepage</span> and try again.</h3>
-      <a href="" class="clicked"><button class="return" type="button">Return to Homepage</button></a>
+      <a href="index.jsp" class="clicked"><button class="return" type="button">Return to Homepage</button></a>
     </div>
   </body>
 </html>

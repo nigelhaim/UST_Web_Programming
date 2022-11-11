@@ -4,7 +4,6 @@
  */
 package controller;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -12,11 +11,11 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class AppContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        System.out.println("Booting up code2go...");
+        System.out.println("Booting up FileXpress...");
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        System.out.println("Shutting down code2go...");
+        System.out.println("Shutting down FileXpress...");
     }
 }
 

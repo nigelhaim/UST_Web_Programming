@@ -24,12 +24,13 @@ public class EditServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) 
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditServlet</title>");            
+            out.println("<title>EditServlet</title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet EditServlet at " + request.getContextPath() + "</h1>");
@@ -61,35 +62,36 @@ public class EditServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            try ( PrintWriter out = response.getWriter()) {
-                String new_content = request.getParameter("cont");
-                String filename = request.getParameter("file");
-                String file_path = getServletContext().getRealPath("/entries/" + filename + "/" + filename + ".txt");
-                File f = new File(file_path);
-                /*out.print(new_content);
-                out.print(file);
-                out.print(file_path);*/
-                try{
-                    FileWriter fw = new FileWriter(f, false);
-                    PrintWriter pw = new PrintWriter(fw, false);
-                    pw.flush();                     
-                    pw.close();
-                    fw.close(); 
-                    FileOutputStream fos = new FileOutputStream(f, true);
-                    byte[] b = new_content.getBytes();
-                    fos.write(b);
-                    request.setAttribute("showEntry", filename);
-                    RequestDispatcher view = request.getRequestDispatcher("ShowEntry");
-                    view.forward(request, response);
-                }catch(Exception e){
-                    out.print(e.getMessage());
-                }
-                out.print(f);
+        try (PrintWriter out = response.getWriter())
+        {
+            String newContent = request.getParameter("cont");
+            String filename = request.getParameter("file");
+            String filePath = getServletContext().getRealPath("/entries/" + filename + "/" + filename + ".txt");
+            File f = new File(filePath);
+
+            try
+            {
+                FileWriter fw = new FileWriter(f, false);
+                PrintWriter pw = new PrintWriter(fw, false);
+                pw.flush();                     
+                pw.close();
+                fw.close(); 
+                FileOutputStream fos = new FileOutputStream(f, true);
+                byte[] b = newContent.getBytes();
+                fos.write(b);
+                request.setAttribute("show-entry", filename);
+                RequestDispatcher view = request.getRequestDispatcher("ShowEntry");
+                view.forward(request, response);
             }
+            catch(Exception e)
+            {
+                out.print(e.getMessage());
+            }
+            out.print(f);
+        }
     }
 
     /**
@@ -97,7 +99,6 @@ public class EditServlet extends HttpServlet {
      *
      * @return a String containing servlet description
      */
-    
     @Override
     public String getServletInfo() {
         return "Short description";

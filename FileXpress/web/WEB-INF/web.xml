@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <context-param>
+        <param-name>userID</param-name>
+        <param-value>2022-1234567</param-value>
+    </context-param>
+    <context-param>
+        <param-name>userEmail</param-name>
+        <param-value>student@ust.edu.ph</param-value>
+    </context-param>
+    
     <servlet>
         <servlet-name>PostServlet</servlet-name>
         <servlet-class>controller.PostServlet</servlet-class>
@@ -23,6 +32,16 @@
     <servlet>
         <servlet-name>ShowEntry</servlet-name>
         <servlet-class>controller.ShowEntry</servlet-class>
+        <init-param>
+            <description>This is the name of the user.</description>
+            <param-name>userName</param-name>
+            <param-value>user1</param-value>
+        </init-param>
+        <init-param>
+            <description>This is the occupation of the user.</description>
+            <param-name>userOccupation</param-name>
+            <param-value>Student</param-value>
+        </init-param>
     </servlet>
     <servlet>
         <servlet-name>ShowContent</servlet-name>
@@ -32,7 +51,6 @@
         <servlet-name>AppContextListener</servlet-name>
         <servlet-class>controller.AppContextListener</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>PostServlet</servlet-name>
         <url-pattern>/PostServlet</url-pattern>
@@ -72,5 +90,14 @@
     </session-config>
     <welcome-file-list>
         <welcome-file>start.html</welcome-file>
+        <welcome-file>signup.html</welcome-file>
     </welcome-file-list>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error1.jsp</location>   
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error2.jsp</location>   
+    </error-page>
 </web-app>

@@ -1,15 +1,13 @@
 package controller;
 
+import java.io.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.io.*;
-import java.util.*;
-import javax.servlet.ServletConfig;
 
 public class ShowEntry extends HttpServlet {
 
@@ -21,15 +19,18 @@ public class ShowEntry extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) 
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ShowEntry</title>");            
+            out.println("<title>ShowEntry Servlet</title>");            
             out.println("</head>");
             out.println("<body>");
             doGet(request, response);
@@ -47,80 +48,116 @@ public class ShowEntry extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+     /**
+     * This shows the entry content when a user decides to view the entry 
+     * They have the option to view the contents of the file which will be passed
+     * to an another servlet they can also edit the description through the textarea 
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
         
+        //Gets the data from the servlet 
         ServletConfig config = getServletConfig();
-        String name = config.getInitParameter("name");
+        String name = config.getInitParameter("userName");
+        String occupation = config.getInitParameter("userOccupation");
         
         response.setContentType("text/html");
         String filename = "";
-        if(request.getParameter("showEntry") != null){
-            filename = request.getParameter("showEntry");
+        if(request.getParameter("show-entry") != null)//Gets the filename 
+        {
+            filename = request.getParameter("show-entry");//If not from foward then it gets the parameter
         }
-        else{
-            filename = ((String) request.getAttribute("showEntry"));
+        else
+        {
+            filename = ((String) request.getAttribute("show-entry"));//Else it gets the attribute from the forward method
         }
         
-        String subfilename = filename;
-        String path = getServletContext().getRealPath("/entries/" + subfilename + "/" + (filename + ".txt") );
-        File txt_file= new File(path);  
+        //Gets the file and the description from the folder
+        String subFilename = filename;
+        String path = getServletContext().getRealPath("/entries/" + subFilename + "/" + (filename+".txt") );
+        File txtFile = new File(path);  
         
-        String imgcontextPath = getServletContext().getRealPath("/entries/" + subfilename);
-        File Filepath = new File(imgcontextPath);
+        String fileContextPath = getServletContext().getRealPath("/entries/" + subFilename);
+        File filePath = new File(fileContextPath);
         String fp = "";
-        try ( PrintWriter out = response.getWriter()) {
-//            /out.print(txt_file.getName());
-            out.print("<h1>"+name+"</h1>");
-            BufferedReader br = new BufferedReader(new FileReader(txt_file));
+        
+        //Prints the html tags that will be shown
+        try (PrintWriter out = response.getWriter()) 
+        {
+            //Head
+            out.print("<head>");
+            out.print("<link rel=\"stylesheet\" type=\"text/css\" href=\"./styles.css\" />");
+            out.print("<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Poppins&display=swap\">");
+            out.print("</head>");            
+            //Body
+            
+            //Prints the information of the user
+            out.print("<body class=\"entry\">");
+            out.print("<div class=\"entry-top\">");
+            out.print("<div class=\"entry-head-item\">");
+            out.print("<h2 id=\"entry-head\"> Contributor: " + "<span class=\"lighter\">" + name + "</span>" + "</h2>");
+            out.print("<h2 id=\"entry-head\"> Occupation: " + "<span class=\"lighter\">" + occupation + "</span>" + "</h2>");
+            out.print("</div>");
+            out.print("<div class=\"entry-head-item\">");
+            out.print("<h2 id=\"entry-head\"> User ID: " + "<span class=\"lighter\">" + getServletContext().getInitParameter("userID") + "</span>" + "</h2>");
+            out.print("<h2 id=\"entry-head\"> Email: " + "<span class=\"lighter\">" + getServletContext().getInitParameter("userEmail") + "</span>" + "</h2>");
+            out.print("</div>");
+            out.print("</div>");
+            
+            out.print("<div class=\"entry-wrap\">");
+            out.print("<div class=\"file-name\">");
+            
+            //Gets the file and txt file
+            BufferedReader br = new BufferedReader(new FileReader(txtFile));
             String s = "";
-            
-            out.print("<br>");
-            
-            out.print("<h1>"+ filename.replace("_", " ") + "</h1>");
-            out.print(filename.replace("_", " "));
-            out.print("<br>");
-            if(Filepath.exists()){
-                File [] img_filename= Filepath.listFiles();
-                for (File file : img_filename) {
-                    if(!file.getName().endsWith(".txt")){
+            out.print("<h1 id=\"file-name\">" + filename.replace("_", " ") + "</h1>");
+            //shows the file
+            if(filePath.exists())
+            {
+                File [] files = filePath.listFiles();
+                for (File file : files) 
+                {
+                    if(!file.getName().endsWith(".txt"))
+                    {
                         fp = file.getName();
-                        out.print("<br>");
-                        out.print("<form method=" + "\"get\"" + " action =" + "\"ShowContent\"" + ">");
-                        out.print("<input type=" + "\"hidden\"" + "value=" + "\"" + fp + "\"" + "id=" + "ShowContent" + " name=" + "ShowContent" +">");
-                        out.print("<input type=" + "\"submit\"" + "value=" +  "\"View File\"" + ">");
+                        out.print("<form method=\"get\" action=" + "\"ShowContent\">");
+                        out.print("<input type=\"hidden\" value=\"" + fp + "\" id=\"ShowContent\" name=\"ShowContent\">");
+                        out.print("<input type=\"submit\" id=\"view\" value=\"View File\">");
                         out.print("</form>");
                     }
                 } 
             }
-            /*out.print("<form method=" + "\"post\"" + " action=" + "\"EditIMGServlet\""+">"
-            + "<input type=\"file\" accept=\"image/png, image/jpg\" name=\"file\"> <br>" + 
-            "<input type=" + "\"hidden\"" + " name=" + "\"path\"" + " value=" + subfilename + ">" + 
-            "<input type=" + "\"submit\"" + " value=" + "\"Change Image\"" + ">");*/
+            out.print("</div>");
             
-            out.print("<br>");
-            out.print("<br>");
-
-            out.print("<br>");
-            out.print("<br>");
-            out.print("Editable description form");
-            out.print("<form method =" + "\"post\"" + " action=" + "\"EditServlet\"" + ">");
-            out.print("<input type=" + "\"hidden\"" + "value=" + "\"" + fp + "\"" + "id=" + "\"file\"" + " name=" + "\"file\"" +">");
-            out.print("<textarea name=" + "\"cont\"" + " id=" + "\"cont\"" + " name=" + "\"cont\"" + ">");
-            while((s = br.readLine()) != null){
+            //Gets the description and place in a textarea that users can have the option to edit
+            out.print("<h2 class=\"file-desc\"> Edit the file description: </h2>");
+            out.print("<form method=\"post\" action=\"EditServlet\">");
+            out.print("<input type=\"hidden\" value=\"" + fp + "\"id=\" file\" name=\"file\">");
+            out.print("<textarea id=\"cont\" name=\"cont\" rows=\"5\" cols=\"50\" placeholder=\"Type something (except coding terms)...\" required>");
+            while((s = br.readLine()) != null)
+            {
                 out.print(s + "\r\n");
             }
             out.print("</textarea>");
-            out.print("<br>");
-            out.print("<input type = " + "\"submit\"" + " value=" + "\"submit\"" + ">");
+            out.print("<input type=\"submit\" id=\"entry-submit\" value=\"Submit\" />");
+            out.print("<a onclick=\"history.back()\" class=\"clicked\"><button class=\"entry-back\" type=\"button\">Return</button></a>");
             out.print("</form>");
-            out.print("<br>");
-            out.print("<br>");
+            out.print("</div>");
+            out.print("</body>");
         }
     }
     
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -131,8 +168,7 @@ public class ShowEntry extends HttpServlet {
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
-     */
-    
+     */  
     @Override
     public String getServletInfo() {
         return "Short description";

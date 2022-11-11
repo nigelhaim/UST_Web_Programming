@@ -21,12 +21,13 @@ public class DeleteServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) 
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteServlet</title>");            
+            out.println("<title>DeleteServlet</title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet DeleteServlet at " + request.getContextPath() + "</h1>");
@@ -59,39 +60,53 @@ public class DeleteServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-       @Override
+    /**
+    *   This acts as the delete function of the web application
+    *   this gets the value of the specified name and if the file 
+    *   exists then deletes the folder 
+    */
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-                try ( PrintWriter out = response.getWriter()) {
-            String f_p = request.getParameter("DeleteServlet");
-            
-            String p = getServletContext().getRealPath("/entries/" + f_p);
-            try{
-            File Filepath = new File(p);
-            if(Filepath.exists()){
-                File [] folder_content = Filepath.listFiles();
-                for(final File folder_file : folder_content){
-                    folder_file.delete();
-                }
-                if(Filepath.delete()){
-                    response.sendRedirect("index.jsp");
-                }
-                else{
-                    out.print("Failed");
+        
+        try (PrintWriter out = response.getWriter()) 
+        {
+            //Gets the requested filename and gets the path of the filename
+            String fp = request.getParameter("DeleteServlet");
+            String p = getServletContext().getRealPath("/entries/" + fp);
+            try
+            {
+                File filePath = new File(p);//Finds the folder with the file 
+                if(filePath.exists())
+                {
+                    File [] folderContent = filePath.listFiles();//Scans all the files of the folder and deletes the fiels 
+                    for(final File folderFile : folderContent)
+                    {
+                        folderFile.delete();
+                    }
+                    if(filePath.delete())//Deletes the fodler 
+                    {
+                        response.sendRedirect("index.jsp");//Returns to index.jsp s
+                    }
+                    else
+                    {
+                        out.print("Failed");
+                    }
                 }
             }
-            }catch(Exception e){
+            catch(Exception e)
+            {
                 out.print("Error");
             }
-            }
-        } 
+        }
+    } 
+    
      /**
      * Returns a short description of the servlet.
      *
      * @return a String containing servlet description
      */
-    
     @Override
     public String getServletInfo() {
         return "Short description";

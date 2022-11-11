@@ -22,7 +22,7 @@
     
     <body>
         <nav id="side-bar">
-            <header id="nav">code 2 go</header>
+            <header id="nav">FileXpress</header>
             <div class="nav">
                 <form method="get" action="CategoriesServlet">
                     <label class="category" for="categories">Categories:</label>
@@ -34,6 +34,7 @@
                             <option value='.jsp'>.jsp</option>
                             <option value='.html'>.html</option>
                             <option value='.css'>.css</option>
+                            <option value='.pdf'>.css</option>
                         </select>
                     </div>
                     <a href="index.jsp" class="clicked"><button class="back" type="button">Return to Homepage</button></a> 
@@ -44,26 +45,28 @@
         <main class="work-bar">
             <h1 class="result-title"><% out.print(request.getAttribute("category")); %> Files</h1>
             <div class="list">
-                <%
-                    List fileList = (List)request.getAttribute("fileList");
-                    Iterator<String> it = fileList.iterator();
-                
-                    while(it.hasNext())
-                    {
-                        String origFilename = it.next();
-                        int num = origFilename.lastIndexOf('.');
-                        String newFilename = origFilename.substring(0, num);
-                        out.print("<form method=" + "\"get\"" + "action=" + "\"ShowEntry\"" + ">");
-                        out.print("<button type="+ "\"submit\"" + "class=" + "\"list-obj\"" + "name=" + "\"show-entry\"" + "value=" + "\"" + origFilename + "\"" + "/>" + newFilename);
-                        out.print("</button>");
-                        out.print("</form>");
-                        out.print("<form method=" + "\"post\"" + "action=" + "\"DeleteServlet\"" + ">" + 
-                        "<button type="+ "\"submit\"" + "class=" + "\"delete\"" + "name=" + "\"DeleteServlet\"" + "value=" + "\"" + origFilename + "\"" + "/>" + 
-                        "Delete" + "</button>" + 
-                        "</form>" + 
-                        "<br>");
-                    }
-                %>
+                <div class="obj-wrap">
+                    <%
+                        List fileList = (List)request.getAttribute("fileList");
+                        Iterator<String> it = fileList.iterator();
+
+                        while(it.hasNext())
+                        {
+                            String origFilename = it.next();
+                            int num = origFilename.lastIndexOf('.');
+                            String newFilename = origFilename.substring(0, num);
+                            out.print("<form method=\"get\" action=\"ShowEntry\">");
+                            out.print("<button type=\"submit\" class=\"list-obj\" name=\"show-entry\" value=\"" + origFilename + "\">" + newFilename);
+                            out.print("</button>");
+                            out.print("</form>");
+                            out.print("<form method=" + "\"post\"" + "action=" + "\"DeleteServlet\"" + ">" + 
+                            "<button type="+ "\"submit\"" + "class=" + "\"delete\"" + "name=" + "\"DeleteServlet\"" + "value=" + "\"" + origFilename + "\"" + ">" + 
+                            "X" + "</button>" + 
+                            "</form>" + 
+                            "<br>");
+                        }
+                    %>
+                </div>
             </div>
         </main>
     </body>

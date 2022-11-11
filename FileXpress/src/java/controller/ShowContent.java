@@ -1,14 +1,14 @@
 package controller;
 
+import java.io.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLConnection;
+import javax.servlet.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import javax.servlet.*;
 
 public class ShowContent extends HttpServlet {
 
@@ -23,12 +23,13 @@ public class ShowContent extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter())
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet showContent</title>");            
+            out.println("<title>ShowContent Servlet</title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet showContent at " + request.getContextPath() + "</h1>");
@@ -45,35 +46,39 @@ public class ShowContent extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     */    
     
+    
+    /**
+    *   When view File is clicked it gets the filename and checks if what ContentType will be shown 
+    *   The user can view whatever file type is passed
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        //try ( PrintWriter p = response.getWriter()) {
+        
+        //Gets the filename and checks the fileType 
         String filename = request.getParameter("ShowContent");
         String mimeType = URLConnection.guessContentTypeFromName(filename);
+        response.setContentType(mimeType);//Sets the content type when viewing 
+        //prints and shows the contents of a file 
         ServletOutputStream out = response.getOutputStream();
         String path = getServletContext().getRealPath("/entries/" + filename + "/" + (filename) );
-        FileInputStream flinp = new FileInputStream(path);
-         BufferedInputStream buffinp = new BufferedInputStream(flinp);
-         BufferedOutputStream buffoup = new BufferedOutputStream(out);
-         int ch=0;
+        FileInputStream fis = new FileInputStream(path);
+        BufferedInputStream bis = new BufferedInputStream(fis);
+        BufferedOutputStream bos = new BufferedOutputStream(out);
+        
+        int ch = 0;
+        while ((ch = bis.read()) != -1) 
+        {
+            bos.write(ch);
+        }
 
-         while ((ch=buffinp.read()) != -1) {
-
-         buffoup.write(ch);
-
-         }
-
-         buffinp.close();
-
-         flinp.close();
-
-         buffoup.close();
-
-         out.close();
+        bos.close();
+        bis.close();
+        fis.close();
+        out.close();
     }
 
     /**
@@ -84,7 +89,6 @@ public class ShowContent extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -96,7 +100,6 @@ public class ShowContent extends HttpServlet {
      *
      * @return a String containing servlet description
      */
-    
     @Override
     public String getServletInfo() {
         return "Short description";

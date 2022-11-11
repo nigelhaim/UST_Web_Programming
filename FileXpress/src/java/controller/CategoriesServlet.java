@@ -24,7 +24,8 @@ public class CategoriesServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter())
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -32,41 +33,36 @@ public class CategoriesServlet extends HttpServlet {
             out.println("<title>Servlet CategoriesServlet</title>");            
             out.println("</head>");
             out.println("<body>");
+            /**
+            *   This serves as the controller of the categories MVC where 
+            *   if the user picked a category then it will scan the entries
+            *   and return a list of filenames (Strings) with the same file
+            *   extension
+            */
+            
+            //Gets the requested category and gets the contextPath of entries folder
             String category = request.getParameter("categories");
             String contextPath = getServletContext().getRealPath("/entries");
-            FileCategories f_category = new FileCategories();
-            List fileList = f_category.getFiles(category, contextPath);
-            if(fileList == null){
+            //Calls the FileCategories model and scans the files that is compared to the parsed string (file extension)
+            FileCategories fileCategory = new FileCategories();
+            List fileList = fileCategory.getFiles(category, contextPath);
+            if(fileList == null){ //If the scanning of files failed then it returns to index.jsp
                 response.sendRedirect("index.jsp");
             }
-            else{
-                if(!category.equals("All")){
+            else  
+            {
+                if(!category.equals("All"))//if there is a selected category then the list will be forward to the result.jsp
+                {
                     request.setAttribute("category", category);
                     request.setAttribute("fileList", fileList);
                     RequestDispatcher view = request.getRequestDispatcher("result.jsp");
                     view.forward(request, response);
                 }
-                else{
+                else//else if the selected category is All Files then the list will be on the All files div of index.jsp
+                {
                     request.setAttribute("fileList", fileList);
                     RequestDispatcher view = request.getRequestDispatcher("index.jsp");
                     view.forward(request, response);
-                   
-                
-                    
-                    /*while(it.hasNext()){
-                    String og_filename = it.next();
-                    int num = og_filename.lastIndexOf('.');
-                    String nw_filename = og_filename.substring(0, num);
-                    out.print("<form method=" + "\"get\"" + "action=" + "\"ShowEntry\"" + ">" + 
-                                    "<button type="+ "\"submit\"" + "name=" + "\"showEntry\"" + "value=" + "\"" + og_filename + "\"" + "/>" + 
-                                    nw_filename + "</button>" + 
-                                    "</form>");
-                    out.print("<form method=" + "\"post\"" + "action=" + "\"DeleteServlet\"" + ">" + 
-                                    "<button type="+ "\"submit\"" + "name=" + "\"DeleteServlet\"" + "value=" + "\"" + og_filename + "\"" + "/>" + 
-                                    "Delete" + "</button>" + 
-                                    "</form>" + 
-                                    "<br>");
-                    }*/
                 }                     
             }
             out.println("</body>");

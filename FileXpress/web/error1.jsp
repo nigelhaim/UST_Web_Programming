@@ -17,15 +17,8 @@
   </head>
 
   <body>
-    <header id="header">
+    <header id="error-header">
       <h1 id="app-name">FileXpress</h1>
-      <nav id="nav-bar">
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#about-us">About us</a></li>
-        </ul>
-      </nav>
     </header>
 
     <div class="error">
@@ -36,8 +29,10 @@
         </div>
         <img id="error-img-1" src="https://cdn.discordapp.com/attachments/1013982573841616907/1038356298061852742/error_icon1.png" alt="error icon" />
       </div>
-      <h3>It seems like the page you are looking for no longer exists, have been removed, renamed, or doesn't exist in the first place. It is advisable to <span id="bold">return to the homepage</span> and try again.</h3>
-      <a href="" class="clicked"><button class="return" type="button">Return to Homepage</button></a>
+      <h3>It seems like the page you are looking for no longer exists, have been removed, renamed, or does not exist in the first place. It is advisable to 
+          <span id="bold">return to the homepage</span> and try again.
+      </h3>
+      <a href="index.jsp" class="clicked"><button class="return" type="button">Return to Homepage</button></a>
     </div>
   </body>
 </html>

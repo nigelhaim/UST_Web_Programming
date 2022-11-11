@@ -17,27 +17,20 @@
   </head>
 
   <body>
-    <header id="header">
-      <h1 id="app-name">code 2 go</h1>
-      <nav id="nav-bar">
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#about-us">About us</a></li>
-        </ul>
-      </nav>
+    <header id="error-header">
+      <h1 id="error-app-name">FileXpress</h1>
     </header>
 
     <div class="error">
       <div class="error-divide">
         <div class="error-wrap">
           <h1>Oh snap!</h1>
-          <h2>Error 403 - Forbidden</h2>
+          <h2>You encountered an error!</h2>
         </div>
         <img id="error-img-3" src="https://cdn.discordapp.com/attachments/1013982573841616907/1039517817432703056/error_icon3.png" alt="error icon" />
       </div>
-      <h3>This is a restricted area as you don't have permission to access what you're looking for. It is advisable to <span id="bold">return to the homepage</span> and try again.</h3>
-      <a href="" class="clicked"><button class="return" type="button">Return to Homepage</button></a>
+      <h3>No worries! You can <span id="bold">return to the homepage</span> and try again.</h3>
+      <a href="index.jsp" class="clicked"><button class="return" type="button">Return to Homepage</button></a>
     </div>
   </body>
 </html>

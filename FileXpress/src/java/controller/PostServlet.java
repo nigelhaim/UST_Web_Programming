@@ -1,17 +1,16 @@
 package controller;
 
+import java.io.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.io.*;
-import javax.servlet.RequestDispatcher;
+import javax.servlet.http.Part;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Part;
 
 @WebServlet(name = "FileUploadServlet", urlPatterns = { "/fileuploadservlet" })
 @MultipartConfig(
@@ -35,12 +34,13 @@ public class PostServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) 
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet PostServlet</title>");            
+            out.println("<title>PostServlet</title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet PostServlet at " + request.getContextPath() + "</h1>");
@@ -74,67 +74,83 @@ public class PostServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
+    /**
+     * This Gets the parameters of the description and the submitted file to be
+     * stored in the entries folder the description is written on the txt file
+     * also if the entries folder does not exists then it will create a new folder
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-         
+        
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();  
+        
+        //gets the description and the file to be saved 
         String header;
         String content = request.getParameter("cont");
         String contextPath = getServletContext().getRealPath("/");
-        Part img;
-        img = request.getPart("file");
-        if(img.getSize()<=0){
-            response.sendRedirect("error2.jsp");
-        }
-        else if(content.equals("")){
-             response.sendRedirect("error1.jsp");
-        }else{
-             String imgName = img.getSubmittedFileName().replaceAll(" ", "_");
-        header = imgName;
-        File path = new File(contextPath + "/entries");
-        if(!path.exists())
+        Part file;
+        file = request.getPart("file");
+        String filename = file.getSubmittedFileName().replaceAll(" ", "_");
+        header = filename;
+        File path = new File(contextPath + "/entries");//gets the entries path 
+        if(!(file.getSize() <= 0))//If there is a passed file then it runs the save process 
         {
-            path.mkdirs();
-        }
-        
-        File entryPath = new File(contextPath + "/entries/" + header);
-        if(!entryPath.exists())
-        {
-            entryPath.mkdirs();
-        }
-        
-        String[] del = entryPath.list();
-        for (String s1:del)
-        {
-            File f1 = new File (entryPath,s1);
-            f1.delete();   
-        }
-        
-        String newFile = header + ".txt";
+            if(!content.equals(""))//If there is a description then the save continues 
+            {
+                if(!path.exists())//If there is no entries folder then it makes a new folder 
+                {
+                    path.mkdirs();
+                }
 
-        FileOutputStream fos = new FileOutputStream(entryPath + "/" + newFile, true);
-        byte[] b = content.getBytes();
-        fos.write(b);
-        fos.close();
-        
-        String imgPath = contextPath + "/entries/" + header + "/" + imgName;
-        try (FileOutputStream imgFos = new FileOutputStream(imgPath))
-        {
-            InputStream is = img.getInputStream();
+                File entryPath = new File(contextPath + "/entries/" + header);//Creates the new folder in the entries
+                if(!entryPath.exists())
+                {
+                    entryPath.mkdirs();
+                }
 
-            byte[] data = new byte[is.available()];
-            is.read(data);
-            imgFos.write(data);
+                String[] del = entryPath.list();//Clears the folder
+                for (String s: del)
+                {
+                    File f = new File (entryPath,s);
+                    f.delete();   
+                }
+
+                String newFile = header + ".txt";//Creates the new txt file 
+
+                FileOutputStream fos = new FileOutputStream(entryPath + "/" + newFile, true);//Places the submitted file on the folder
+                byte[] b = content.getBytes();
+                fos.write(b);
+                fos.close();
+
+                String filePath = contextPath + "/entries/" + header + "/" + filename;//Writes the description of the file on the txt file 
+                try (FileOutputStream fileFos = new FileOutputStream(filePath))
+                {
+                    InputStream is = file.getInputStream();
+
+                    byte[] data = new byte[is.available()];
+                    is.read(data);
+                    fileFos.write(data);
+                }
+                catch(Exception e)
+                {
+                    System.out.print(e.getMessage());
+                }
+
+                response.sendRedirect("index.jsp");//If the creation of the file is successful then it returns to index.jsp   
+            }   
+            else//If there is no description then it includes a prompt to the user that it needs a description every submission of the file 
+            {  
+                out.print("<h3 class=\"prompt\"> Please include a description of the file! </h3>");
+                RequestDispatcher view = request.getRequestDispatcher("index.jsp");
+                view.include(request, response); 
+            }
         }
-            
-        catch(Exception e)
+        else
         {
-            System.out.print(e.getMessage());
-        }
-        
-        response.sendRedirect("index.jsp");
-            
+             response.sendRedirect("./error3.jsp");
         }
     }
     
@@ -149,7 +165,4 @@ public class PostServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-    private String extractFileName(Part img) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
