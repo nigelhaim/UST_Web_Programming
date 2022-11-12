@@ -1,12 +1,11 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : 11 11, 22, 8:10:16 AM
-    Author     : reiva
-*/
+/** 
+ * Edison J. Javier III
+ * Nigel Haim N. Sebastian
+ * Group 5 - 2CSC
+ * MP3 - Web App
+ */
 
+/* For the whole CSS and HTML, JSP pages*/
 :root {
     --dark-color: #1b1b1b;
     --light-color: #e0dbea;
@@ -23,6 +22,7 @@ html {
     scroll-behavior: smooth;
 }
 
+/* For Welcome Pages*/
 #header {
     position: fixed;
     top: 0;
@@ -167,7 +167,7 @@ html {
 }
 
 .about-us-skew {
-    margin-top: 25vh;
+    margin-top: 28vh;
     color: var(--light-color);
     background-color: var(--dark-color);
     padding: 100px 0;
@@ -176,6 +176,7 @@ html {
 }
 
 .about-us-wrap {
+    position: relative;
     padding: 50px 150px;
     transform: skew(0deg, -10deg);
     display: flex;
@@ -196,7 +197,7 @@ html {
 .social-media ul {
     display: flex;
     justify-content: center;
-    gap: 40px;
+    gap: 55px;
     padding-top: 30px;
 }
 
@@ -244,86 +245,6 @@ footer p {
     font-size: 20px;
     font-weight: initial;
     text-align: center;
-}
-
-.error {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin: 5vh;
-    padding: 2em;
-}
-
-.error-wrap {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.error h1 {
-    font-size: 7rem;
-}
-
-.error h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1em;
-}
-
-.error-divide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 7vw;
-    margin-top: 15vh;
-}
-
-.error #error-img-1 {
-    width: 230px;
-    height: 190px;
-    max-width: 300px;
-}
-
-.error #error-img-2 {
-    width: 280px;
-    height: 200px;
-    max-width: 300px;
-}
-
-.error #error-img-3 {
-    width: 250px;
-    height: 170px;
-    max-width: 300px;
-}
-
-.error h3 {
-    margin: 6vh 18vw 0 18vw;
-    font-size: 18px;
-    font-weight: lighter;
-}
-
-#bold {
-    font-weight: bold;
-}
-
-.return {
-    border: transparent;
-    border-radius: 5px;
-    background-color: var(--dark-color);
-    font-family: 'Poppins', sans-serif;
-    color: var(--light-color);
-    width: 250px;
-    height: 55px;
-    font-size: 1.3em;
-    text-transform: uppercase;
-    margin-top: 30px;
-}
-
-.return:hover {
-    background-color: #4e4e4e;
-    color: var(--gray-color)
 }
 
 .register {
@@ -450,6 +371,104 @@ footer p {
     padding: 20px;
 }
 
+/* For Error Pages */
+#error-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-height: 70px;
+    width: 100%;
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    z-index: 999;
+}
+
+#error-app-name {
+    margin: 10px 0 0 30px;
+    width: 60vw;
+}
+
+.error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 5vh;
+    padding: 2em;
+}
+
+.error-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.error h1 {
+    font-size: 7rem;
+}
+
+.error h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1em;
+}
+
+.error-divide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7vw;
+    margin-top: 15vh;
+}
+
+.error #error-img-1 {
+    width: 230px;
+    height: 190px;
+    max-width: 300px;
+}
+
+.error #error-img-2 {
+    width: 280px;
+    height: 200px;
+    max-width: 300px;
+}
+
+.error #error-img-3 {
+    width: 250px;
+    height: 170px;
+    max-width: 300px;
+}
+
+.error h3 {
+    margin: 6vh 18vw 0 18vw;
+    font-size: 18px;
+    font-weight: lighter;
+}
+
+#bold {
+    font-weight: bold;
+}
+
+.return {
+    border: transparent;
+    border-radius: 5px;
+    background-color: var(--dark-color);
+    font-family: 'Poppins', sans-serif;
+    color: var(--light-color);
+    width: 250px;
+    height: 55px;
+    font-size: 1.3em;
+    text-transform: uppercase;
+    margin-top: 30px;
+}
+
+.return:hover {
+    background-color: #4e4e4e;
+    color: var(--gray-color)
+}
+
+/* For index.jsp and result.jsp */
 .body {
     display: flex;
     margin: 5px;
@@ -462,7 +481,7 @@ footer p {
     top: 0px;
     left: 0px; 
     border-right: solid;
-    min-width: 250px;
+    min-width: 230px;
     height: 100%;
     border-color: var(--dark-color);
     background-color: var(--dark-color);
@@ -482,17 +501,17 @@ footer p {
     margin-top: 20px;
 }
 
-.category {
+.view-files {
     font-size: 20px;
 }
 
 .custom-select {
     position: relative;
-    margin-top: 15px;
+    margin-top: 5px;
 }
 
 .categories {
-    font-size: 17px;
+    font-size: 15px;
     background-color: var(--gray-color);
     min-width: 180px;
     height: 40px;
@@ -504,11 +523,11 @@ footer p {
     background-color: var(--gray-color);
     font-family: 'Poppins', sans-serif;
     color: var(--dark-color);
-    width: 180px;
-    height: 40px;
+    width: 150px;
+    height: 60px;
     font-size: 15px;
     text-transform: uppercase;
-    margin-top: 10em;
+    margin: 10.5em 0 0 14px;
     align-self: center;
 }
 
@@ -517,36 +536,23 @@ footer p {
     color: var(--gray-color);
 }
 
-.clear {
-    display: block;
-    border: transparent;
-    border-radius: 5px;
-    background-color: var(--gray-color);
-    font-family: 'Poppins', sans-serif;
-    color: var(--dark-color);
-    width: 180px;
-    height: 40px;
-    font-size: 15px;
-    text-transform: uppercase;
-    margin-top: 1em;
-    align-self: center;
-}
-
-.clear:hover {
-    background-color: #4e4e4e;
-    color: var(--gray-color);
-}
-
 .user-info-title {
-    margin-top: 30px;
+    margin-top: 10px;
+    font-size: 25px;
 }
 
 .user-info {
     margin-top: 5px;
+    font-size: 13px;
 }
 
 .small {
     font-weight: lighter;
+    font-size: 15px;
+}
+
+.date {
+    margin-top: 5px;
     font-size: 20px;
 }
 
@@ -620,6 +626,15 @@ textarea:focus {
     border-color: #333333;
 }
 
+.prompt {
+    position: absolute;
+    top: 42vh;
+    left: 33.5vw;
+    font-weight: bolder;
+    font-size: 1.5em;
+    color: red;
+}
+
 #submit {
     border: transparent;
     border-radius: 5px;
@@ -660,10 +675,44 @@ textarea:focus {
     color: var(--light-color);
     text-align: center;
     font-weight: bolder;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.clear {
+    display: block;
+    border: transparent;
+    border-radius: 5px;
+    background-color: var(--gray-color);
+    font-family: 'Poppins', sans-serif;
+    color: var(--dark-color);
+    width: 100px;
+    height: 40px;
+    font-size: 15px;
+    text-transform: uppercase;
+    margin-top: 0.5em;
+    align-self: center;
+}
+
+.clear:hover {
+    background-color: #4e4e4e;
+    color: var(--gray-color);
+}
+
+.all-files-view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    margin-top: 5em;
+    padding: 13em 0 1em 0;
 }
 
 .result-title {
-    font-size: 7em;
+    font-size: 5em;
 }
 
 .list {
@@ -674,8 +723,10 @@ textarea:focus {
     border: solid var(--dark-color);
     border-width: thin;
     height: 30em;
-    width: 20em;
+    width: 23em;
     margin: 10px 0 0 25px;
+    overflow-y: auto;
+    padding: 2em 0 1em 0;
 }
 
 .obj-wrap {
@@ -700,6 +751,8 @@ textarea:focus {
     border: none;
     border-radius: 5px;
 }
+
+/* For ShowEntry.java */
 
 .entry {
     background-color: var(--dark-color);
@@ -733,7 +786,7 @@ textarea:focus {
     align-items: center;
     background-color: var(--light-color);
     border-radius: 5px;
-    width: 37em;
+    width: 80em;
     height: 28em;
     padding: 30px;
     color: var(--dark-color);
@@ -741,12 +794,14 @@ textarea:focus {
 
 .file-name {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
 }
 
 #file-name {
-    margin: 10px;
-    font-size: 3em;
+    margin-top: 20px;
+    font-size: 2em;
 }
 
 #view {
@@ -755,12 +810,11 @@ textarea:focus {
     background-color: var(--dark-color);
     font-family: 'Poppins', sans-serif;
     color: var(--light-color);
-    width: 80px;
-    height: 30px;
+    width: 90px;
+    height: 40px;
     font-size: 14px;
     text-transform: uppercase;
-    margin-top: 38px;
-    align-self: center;
+    margin-top: 10px;
 }
 
 #view:hover {
@@ -787,7 +841,7 @@ textarea:focus {
     height: 40px;
     font-size: 1em;
     text-transform: uppercase;
-    margin: 10px 0 0 11em;
+    margin: 10px 0 0 16em;
 }
 
 #entry-submit:hover {
@@ -806,7 +860,7 @@ textarea:focus {
     height: 40px;
     font-size: 1em;
     text-transform: uppercase;
-    margin: 10px 0 0 11em;
+    margin: 10px 0 0 16em;
 }
 
 .entry-back:hover {
@@ -814,19 +868,4 @@ textarea:focus {
     color: var(--gray-color);
 }
 
-#error-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    min-height: 70px;
-    width: 100%;
-    background-color: var(--dark-color);
-    color: var(--light-color);
-    z-index: 999;
-}
-
-#error-app-name {
-    margin: 10px 0 0 30px;
-    width: 60vw;
-}
 

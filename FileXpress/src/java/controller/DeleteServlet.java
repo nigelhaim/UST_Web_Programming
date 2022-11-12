@@ -1,3 +1,10 @@
+/** 
+ * Edison J. Javier III
+ * Nigel Haim N. Sebastian
+ * Group 5 - 2CSC
+ * MP3 - Web App
+ */
+
 package controller;
 
 import java.io.File;
@@ -30,7 +37,7 @@ public class DeleteServlet extends HttpServlet {
             out.println("<title>DeleteServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>DeleteServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,10 +68,10 @@ public class DeleteServlet extends HttpServlet {
      */
     
     /**
-    *   This acts as the delete function of the web application
-    *   this gets the value of the specified name and if the file 
-    *   exists then deletes the folder 
-    */
+     * This method acts as the delete function of the web application
+     * by getting the value of the specified name
+     * If the file exists, then it deletes the folder 
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -72,32 +79,35 @@ public class DeleteServlet extends HttpServlet {
         
         try (PrintWriter out = response.getWriter()) 
         {
-            //Gets the requested filename and gets the path of the filename
+            // Gets the requested filename and gets the path of the filename
             String fp = request.getParameter("DeleteServlet");
             String p = getServletContext().getRealPath("/entries/" + fp);
             try
             {
-                File filePath = new File(p);//Finds the folder with the file 
+                File filePath = new File(p); // Finds the folder with the file 
                 if(filePath.exists())
                 {
-                    File [] folderContent = filePath.listFiles();//Scans all the files of the folder and deletes the fiels 
+                    File [] folderContent = filePath.listFiles(); // Scans all the files of the folder and deletes the files 
                     for(final File folderFile : folderContent)
                     {
                         folderFile.delete();
                     }
-                    if(filePath.delete())//Deletes the fodler 
+                    if(filePath.delete()) // Deletes the folder
                     {
-                        response.sendRedirect("index.jsp");//Returns to index.jsp s
+                        // Uses sendRedirect with a relative path
+                        response.sendRedirect("index.jsp"); // then return to index.jsp
                     }
                     else
                     {
-                        out.print("Failed");
+                        // Uses sendRedirect with an absolute path
+                        response.sendRedirect("./index.jsp");
                     }
                 }
             }
             catch(Exception e)
             {
-                out.print("Error");
+                // Uses sendRedirect with an absolute path
+                response.sendRedirect("./index.jsp");
             }
         }
     } 
