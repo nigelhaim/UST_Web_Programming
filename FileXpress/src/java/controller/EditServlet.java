@@ -62,18 +62,27 @@ public class EditServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter())
         {
+            // Gets the new description, filename of the txt and the path to the folder 
             String newContent = request.getParameter("cont");
             String filename = request.getParameter("file");
             String filePath = getServletContext().getRealPath("/entries/" + filename + "/" + filename + ".txt");
             File f = new File(filePath);
-
-            try
-            {
+            
+            // Clears the txt file and writes the new description and forwards back to the ShowEntry servlet 
+            try{
                 FileWriter fw = new FileWriter(f, false);
                 PrintWriter pw = new PrintWriter(fw, false);
                 pw.flush();                     
@@ -86,8 +95,7 @@ public class EditServlet extends HttpServlet {
                 RequestDispatcher view = request.getRequestDispatcher("ShowEntry");
                 view.forward(request, response);
             }
-            catch(Exception e)
-            {
+            catch(Exception e){
                 out.print(e.getMessage());
             }
             out.print(f);
