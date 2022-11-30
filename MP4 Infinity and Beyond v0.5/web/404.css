@@ -1,0 +1,82 @@
+@import url('https://fonts.cdnfonts.com/css/alone-in-space');
+@import url('https://fonts.cdnfonts.com/css/stalker');
+@import url('https://fonts.cdnfonts.com/css/chronosfer-demo');
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+
+/* For HTML Files */
+* {
+  font-family: sans-serif;
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+  position: relative;
+}
+
+.clicked {
+  text-decoration: none;
+}
+
+/* For error.html */
+.error {
+  background-image: url("space1.jpg");
+  background-size: cover;
+}
+
+.error-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20vh 35vh 0 35vh;
+  color: #F9FEFF;
+}
+
+.error-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+#error-img-1 {
+  margin-top: 10vh;
+  width: 170px;
+  height: 190px;
+  max-width: 300px;
+}
+
+.error-box h1 {
+  font-family: 'Chronosfer Demo', sans-serif;
+  font-size: 18em;
+  margin-bottom: 5px;
+  padding: 5px 0;
+  text-align: center;
+}
+
+.error-box h3 {
+  font-size: 1.3em;
+  font-weight: normal;
+  border-radius: 5px;
+}
+
+#bold {
+  font-weight: bold;
+}
+
+.return {
+  width: 100%;
+  background: none;
+  border: 2px solid #A943D5;
+  color: #CDC6FF;
+  padding: 20px;
+  font-family: 'STALKER1', sans-serif;
+  font-size: 25px;
+  cursor: pointer;
+  margin: 7vh 0;
+  border-radius: 5px;
+}
+
+.return:hover {
+  background: #A943D5;
+  transition: 0.3s ease-in-out;
+}
