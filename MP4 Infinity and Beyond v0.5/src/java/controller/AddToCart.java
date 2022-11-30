@@ -6,10 +6,13 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.Product;
 
 /**
  *
@@ -40,17 +43,42 @@ public class AddToCart extends HttpServlet {
             out.println("</body>");
             out.println("</html>");*/
             
-            String item_name = request.getParameter("item");
-            String price = request.getParameter("price");
-            String quantity = request.getParameter("quantity");
-            
-            double total = Double.parseDouble(price) * Double.parseDouble(quantity);
+            String name = request.getParameter("name");
+            String color = request.getParameter("color");
+            double price = Double.parseDouble(request.getParameter("price"));
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
             out.print("<h1>");
-            out.print("Item name: " + item_name + "<br>");
+            out.print("Item name: " + name + "<br>");
+            out.print("Item color: " + color + "<br>");
             out.print("Item price: " + price + "<br>");
             out.print("Item quantity: " + quantity + "<br>");
-            out.print("Item total: " + total);
             out.print("</h1>");
+            
+            HttpSession session = request.getSession();
+            if(session.getAttribute("cart") == null){
+                HashMap<Product, Integer> pushcart = new HashMap<Product, Integer>();
+                Product item = new Product(name, color, price);
+                pushcart.put(item, quantity);
+                session.setAttribute("cart", pushcart);
+                out.print(pushcart);
+            }
+            else{
+                HashMap<Product, Integer> pushcart = (HashMap)session.getAttribute("cart");
+                boolean is_same = false;
+                Product item = new Product(name, color, price);
+                 for(Product p : pushcart.keySet()){
+                     if(p.getName().equals(name) && p.getColor().equals(color) && p.getPrice() == price){
+                        is_same = true;
+                        out.print("Same");
+                        pushcart.put(p, pushcart.get(p) + quantity);
+                     }
+                 }
+                 if(!is_same){
+                    pushcart.put(item, quantity);
+                 }
+                out.print(pushcart);
+            }
+            
         }
     }
 

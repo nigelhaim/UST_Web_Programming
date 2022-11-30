@@ -4,6 +4,8 @@
     Author     : reiva
 --%>
 
+<%@page import="java.util.HashMap"%>
+<%@page import="model.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,7 +52,8 @@
         <h2 id="cart-title">Your Shopping Cart</h2>
         <h4 id="cart-remove">Remove Items</h4>
       </div>
-      <div class="cart-item">
+        
+      <!--<div class="cart-item">
         <div class="image-wrap">
           <img src="phantom.png" alt="gun"/>
         </div>
@@ -59,11 +62,8 @@
           <h3 class="item-subtitle">Variation: SW-ACR PHANTOM</h3>
         </div>
           
-          <!-- TODO: transfer item counter to the form element in item.jsp -->
         <div class="item-counter">
-          <button class="counter-btn" type="button">-</button>
           <div class="counter-count">1</div>
-          <button class="counter-btn" type="button">+</button>
         </div>
 
         <div class="item-price">
@@ -71,7 +71,41 @@
           <div class="item-stock">999 items left</div>
           <div class="item-remove"><u>Remove Item</u></div>
         </div>
-      </div>
+      </div>-->
+        
+      <%
+          if(session.getAttribute("cart") == null){
+            out.print("");
+          }
+          else{
+            HashMap<Product, Integer> pushcart = (HashMap)session.getAttribute("cart");
+            for(Product p : pushcart.keySet()){
+                String quantity = Integer.toString(pushcart.get(p));
+                double total = p.getPrice() * Integer.parseInt(quantity);
+                out.print("<div class=\"cart-item\">");
+                    out.print("<div class=\"image-wrap\">");
+                        out.print("<img src=\"phantom.png\" alt=\"gun\"/>");
+                    out.print("</div>");
+                    
+                    out.print("<div class=\"item-about\">");
+                        out.print("<h1 class=\"item-title\">" + p.getName() + p.getColor() + "</h1>");
+                        //out.print("<h3 class=\"item-subtitle\">Color:" +  p.getColor() + "</h3>");    
+                    out.print("</div>");
+                    
+                    out.print("<div class=\"item-counter\">");                 
+                        out.print("<div class=\"counter-count\">" + pushcart.get(p) + "</div>"); 
+                    out.print("</div>");
+                    
+                    out.print("<div class=\"item-price\">");
+                        out.print("<div class=\"price-amount\">" + total + "</div>");
+                        out.print("<div class=\"item-stock\">Original Price:" + p.getPrice() +"</div>");
+                        out.print("<div class=\"item-remove\"><u>TODO | Remove Item | TODO</u></div>");
+                    out.print("</div>");
+                    
+                out.print("</div>");                
+            }
+          }
+      %>
     </div>
   </body>
 </html>

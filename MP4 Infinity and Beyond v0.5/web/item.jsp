@@ -81,7 +81,8 @@
             <h2>DEEP GREY COLOR</h2> -->
           </div>
           <form method="post" action="AddToCart" class="item-cart">
-            <input type="hidden" name="item" value="<% out.println(watch.getName()); %>"/>
+            <input type="hidden" name="name" value="<% out.println(watch.getName()); %>"/>
+            <input type="hidden" name="color" value="<% out.println(watch.getColor()); %>"/>
             <%
                 out.println("<h1><input type=\"hidden\" name=\"price\" value=\""+ watch.getPrice() + "\"/>$" + watch.getPrice() + "</h1>");
             %>
